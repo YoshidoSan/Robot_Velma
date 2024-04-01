@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="use_kinect" default="true" />
+  <arg name="world_name" default="$(find stero_manipulation)/data/gazebo/worlds/stero_box_tables.world" />
+  <arg name="GAZEBO_MODEL_PATH" default="" />
+  <arg name="GAZEBO_RESOURCE_PATH" default="" />
+  <arg name="profile" default="dart_2ms" />
+
+  <arg name="state_snapshot" default="$(find velma_sim_gazebo)/config/initial_state.txt" />
+  <arg name="spawn_velma" default="true"/>
+
+  <arg name="ORO_LOGLEVEL" default="3"/>
+
+  <arg name="gui" default="false"/>
+
+  <include file="$(find velma_common)/launch/velma_system.launch">
+    <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="GAZEBO_MODEL_PATH" value="$(arg GAZEBO_MODEL_PATH):$(find stero_manipulation)/data/gazebo/models" />
+    <arg name="GAZEBO_RESOURCE_PATH" value="$(arg GAZEBO_RESOURCE_PATH):$(find stero_manipulation)/data/gazebo" />
+    <arg name="profile" value="$(arg profile)" />
+    <arg name="state_snapshot" value="$(arg state_snapshot)" />
+    <arg name="spawn_velma" value="$(arg spawn_velma)" />
+    <arg name="ORO_LOGLEVEL" value="$(arg ORO_LOGLEVEL)" />
+  </include>
+
+</launch>

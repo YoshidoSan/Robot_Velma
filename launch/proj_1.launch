@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="world_name" default="$(find stero_manipulation)/data/gazebo/worlds/stero_box_tables.world"/>
+    <arg name="gui" default="false"/>
+    <param name="/use_sim_time" type="bool" value="True"/>
+
+
+    <include file="$(find stero_manipulation)/launch/velma_stero_system.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="gui" value="$(arg gui)"/>
+    </include>
+
+    <include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+        <arg name="link_name" value="box1::link"/>
+        <arg name="frame_id" value="box1"/>
+    </include>
+
+    <include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+        <arg name="link_name" value="table_b::link"/>
+        <arg name="frame_id" value="table_b"/>
+    </include>
+
+    <include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+        <arg name="link_name" value="table_c::link"/>
+        <arg name="frame_id" value="table_c"/>
+    </include> 
+
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find stero_manipulation)/launch/rvizlab1.rviz"/>
+    <node name="velma_control_panel" pkg="rqt_velma" type="velma_control_panel.py" output="screen"/>
+    <include file="$(find velma_ros_plugin)/launch/velma_planner.launch"/>
+
+
+    <include file="$(find velma_common)/launch/octomap_offline_server.launch">
+        <arg name="octomap_file" value="$(find stero_manipulation)/data/gazebo/octomapa_lab1.ot"/>
+    </include>
+
+</launch>

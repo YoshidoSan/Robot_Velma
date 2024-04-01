@@ -1,0 +1,49 @@
+ <?xml version="1.0"?>
+ <launch>
+   <arg name="ORO_LOGLEVEL" default="3"/>
+   <arg name="debug" default="false"/>
+   <arg name="cset" default="false"/>
+ 
+   <arg unless="$(arg cset)"  name="CSET_LAUNCH_PREFIX" value=""/>
+   <arg     if="$(arg cset)"  name="CSET_LAUNCH_PREFIX" value="cset proc -s user -e --"/>
+ 
+   <arg unless="$(arg debug)" name="LAUNCH_PREFIX" value=""/>
+   <arg     if="$(arg debug)" name="LAUNCH_PREFIX" value="gdb -ex run --args "/>
+ 
+   <node
+     launch-prefix="$(arg CSET_LAUNCH_PREFIX) $(arg LAUNCH_PREFIX)"
+     name="velma_task_cs_ros_interface"
+     pkg="subsystem_deployer" type="deployer"
+     args="--DeployerName velma_task_cs_ros_interface -x $(find velma_task_cs_ros_interface)/config/velma_task_cs_ros_interface.xml -m velma_task_cs_ros_interface -c 0 --" output="screen">
+ <!--    <env name="OROCOS_TARGET" value="$(arg OROCOS_TARGET)"/>
+     <env name="RTT_COMPONENT_PATH" value="$(arg RTT_COMPONENT_PATH)"/>-->
+     <env name="ORO_LOGLEVEL" value="$(arg ORO_LOGLEVEL)"/>
+ <!--    <env name="LD_PRELOAD" value="libmalloc_hook.so" />-->
+   </node>
+ 
+   <group ns="velma_task_cs_ros_interface">
+     <rosparam>
+       JntImpAction:
+         joint_names: [torso_0_joint, right_arm_0_joint, right_arm_1_joint, right_arm_2_joint, right_arm_3_joint, right_arm_4_joint, right_arm_5_joint, right_arm_6_joint, left_arm_0_joint, left_arm_1_joint, left_arm_2_joint, left_arm_3_joint, left_arm_4_joint, left_arm_5_joint, left_arm_6_joint]
+       JntPub:
+         joint_names: [torso_0_joint, right_arm_0_joint, right_arm_1_joint, right_arm_2_joint, right_arm_3_joint, right_arm_4_joint, right_arm_5_joint, right_arm_6_joint, left_arm_0_joint, left_arm_1_joint, left_arm_2_joint, left_arm_3_joint, left_arm_4_joint, left_arm_5_joint, left_arm_6_joint, head_pan_joint, head_tilt_joint, right_HandFingerOneKnuckleOneJoint, right_HandFingerOneKnuckleTwoJoint, right_HandFingerOneKnuckleThreeJoint, right_HandFingerTwoKnuckleOneJoint, right_HandFingerTwoKnuckleTwoJoint, right_HandFingerTwoKnuckleThreeJoint, right_HandFingerThreeKnuckleTwoJoint, right_HandFingerThreeKnuckleThreeJoint, left_HandFingerOneKnuckleOneJoint, left_HandFingerOneKnuckleTwoJoint, left_HandFingerOneKnuckleThreeJoint, left_HandFingerTwoKnuckleOneJoint, left_HandFingerTwoKnuckleTwoJoint, left_HandFingerTwoKnuckleThreeJoint, left_HandFingerThreeKnuckleTwoJoint, left_HandFingerThreeKnuckleThreeJoint ]
+         constant_names: [leftFtSensorJoint, rightFtSensorJoint, left_HandFingerOneKnuckleThreeOptoforceJoint, left_HandFingerTwoKnuckleThreeOptoforceJoint, left_HandFingerThreeKnuckleThreeOptoforceJoint, rightKeepUprightJoint0, rightKeepUprightJoint1, leftKeepUprightJoint0, leftKeepUprightJoint1]
+         constant_positions: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+       HeadAction:
+         joint_names: [head_pan_joint, head_tilt_joint]
+       LeftHandAction:
+         prefix: "left"
+       RightHandAction:
+         prefix: "right"
+       TfPub:
+         frame_ids: [right_arm_7_link, left_arm_7_link]
+         child_frame_ids: [right_arm_tool, left_arm_tool]
+     </rosparam>
+ <!--
+       TfPub:
+         frame_ids: [right_arm_7_link, left_arm_7_link, torso_base, torso_base, torso_base, torso_base]
+         child_frame_ids: [right_arm_tool, left_arm_tool, right_arm_cmd, left_arm_cmd, right_arm_tool_measured, left_arm_tool_measured]
+ -->
+   </group>
+ 
+ </launch>
