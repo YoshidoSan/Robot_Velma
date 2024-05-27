@@ -1,4 +1,4 @@
-<p>STERO
+<p>Sterowanie i Symulacja Robotów 
 Michał Kwarciski, Kacper Marchlewicz
 <br>Część manipulacyjna
 <p>Projekt 1 <br>Dokumentacja  <br>
